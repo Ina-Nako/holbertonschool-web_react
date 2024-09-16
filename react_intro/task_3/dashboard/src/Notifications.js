@@ -1,26 +1,33 @@
-import { shallow } from 'enzyme';
-import Notification from './Notification';
+import React from "react";
+import './Notifications.css';
+import { getLatestNotification } from "./utils";
 
 
-describe('Testing <Notification /> component', () => {
-    describe('Notification renders without crashing', () => {
-        it ('should render Notification withour crashing', () => {
-            const wrapper = shallow(<Notification />);
-            expect(wrapper.exists()).toEqual(true);
-        });
-    });
-    describe('Notification renders three list items', () => {
-        it ('should render three list items', () => {
-            const wrapper = shallow(<Notification />);
-            wrapper.update();
-            expect(wrapper.find('li')).toHaveLength(3);
-        });
-    });
-    describe('Notification renders a text', () => {
-        it ('should render a given text', () => {
-            const wrapper = shallow(<Notification />);
-            wrapper.update();
-            expect(wrapper.find('.Notification p').text()).toEqual('Here is the list of notifications');
-        });
-    });
-})
+export default function Notifications() {
+    const handleButtonClick = () => {
+        console.log('Close button has been clicked');
+    };
+    return (
+        <div className="Notifications">
+            <p>Here is the list of notifications</p>
+            <button
+                style={{
+                    position: 'absolute',
+                    top: 20,
+                    right: 20,
+                    border: 'none',
+                    backgroundColor: 'beige',
+                    cursor: 'pointer',
+                }}
+                aria-label="Close"
+                onClick={handleButtonClick}
+            >x</button>
+            <ul>
+                <li data-priority="default">New course available</li>
+                <li data-priority="urgent">New resume available</li>
+                <li data-priority="urgent" dangerouslySetInnerHTML={{ __html: getLatestNotification() }} />
+
+            </ul>
+        </div>
+    )
+}
